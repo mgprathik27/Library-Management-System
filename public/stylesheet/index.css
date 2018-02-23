@@ -1,0 +1,13 @@
+.jumbotron{
+font-size: 2em;
+text-align: center;
+box-sizing: border-box;
+}
+
+input[type= "text"]{
+	width : 80%;
+}
+
+td{
+	border: 2px solid black;
+}
