@@ -1,0 +1,14 @@
+<% include ../partials/header.ejs %>
+<div class = "container">
+	<div class = "jumbotron">
+		<h1>Library Management - Create New Borrower</h1>
+	</div>
+	<form action="/createborrower" method ="POST">
+		<input type="text" name="name" placeholder="Borrower Name" required>		
+		<input type="text" name="ssn" placeholder="Borrower SSN" required>
+		<input type="text" name="address" placeholder="Borrower Address">
+		<input type="text" name="phone" placeholder="Borrower Phone Number">
+		<input type="submit" name="submit" class = "btn btn-primary">
+	</form>
+</div>
+<% include ../partials/footer.ejs %>

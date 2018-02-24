@@ -1,9 +1,9 @@
 <% include ../partials/header.ejs %>
 <div class = "container">
 	<div class = "jumbotron bg-secondary text-white">
-		<h1>Library Management - Return Book</h1>
+		<h1>Library Management - Pay Fines</h1>
 	</div>
-	<form action="/checkin" method ="POST">
+	<form action="/payfines" method ="POST">
 		<input type="text" name="search" placeholder="Search" class = "search">
 		<input type="submit" name="submit" class="btn btn-primary">
 	</form>
@@ -11,24 +11,20 @@
 		<table class = "table table-striped">
 			<thead class = "bg-secondary text-white">
 				<tr>
-					<th>Loan ID</th>
-					<th>ISBN</th>
 					<th>Card ID</th>
-					<th>Date Out</th>
-					<th>Date Due</th>
-					<th class = "button-head">Checkin</th>
+					<th>Borrower Name</th>
+					<th>Fine Amount</th>
+					<th class = "button-head">Pay Fine</th>
 				</tr>
 			</thead>
 			<tbody>
 				<% SearchResults.forEach(function(SearchResult){ %>
 					<tr>
-						<td><%= SearchResult.loan_id %></td>
-						<td><%= SearchResult.Isbn %></td>
-						<td><%= SearchResult.Card_id %></td>
-						<td><%= SearchResult.Date_out %></td>
-						<td><%= SearchResult.Due_date %></td>				
-						<% var link = "/checkin/"+ SearchResult.loan_id %>
-						<td><a href= <%=link%> ><button class ="btn btn-secondary">Return</button></a></td>
+						<td><%= SearchResult.card_id %></td>
+						<td><%= SearchResult.bname %></td>
+						<td><%= SearchResult.fine_amt %></td>
+						<% var link = "/payfines/"+ SearchResult.card_id %>
+						<td><a href= <%=link%> ><button class ="btn btn-secondary">Pay Now</button></a></td>
 					</tr>
 				<% }); %>
 

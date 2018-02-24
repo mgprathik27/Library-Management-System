@@ -1,19 +1,48 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Library Management</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="/stylesheet/index.css">
-</head>
-<body>
+<% include ../partials/header.ejs %>
 <div class = "container">
-	<div class = "jumbotron">
+	<div class = "jumbotron bg-secondary text-white">
 		<h1>Library Management - Checkout</h1>
 	</div>
 	<form action="/checkout" method ="POST">
-		<input type="text" name="search" placeholder="Search">
-		<input type="submit" name="submit">
+		<input type="text" name="search" placeholder="Search using ISBN, Title or Author of the book" class = "search">
+		<input type="submit" name="submit" class="btn btn-primary" value="Search">
 	</form>
+	<% if (SearchResults !== undefined && SearchResults.length != 0) {	%>
+		<table class = "table table-striped ">
+			<thead class ="bg-secondary text-white">
+				<tr>
+					<th>ISBN</th>
+					<th>Book title</th>
+					<th>Book author(s)</th>
+					<th>Available</th>
+					<th class = "button-head">Checkout</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% SearchResults.forEach(function(SearchResult){ %>
+					<tr>
+						<td><%= SearchResult.Isbn %></td>
+						<td><%= SearchResult.Title %></td>
+						<td><%= SearchResult.Authors %></td>
+						<% if (SearchResult.Ind == "Y" ) {%>
+							<td class = "iconcheck"><i class="fas fa-check"></i></td>
+						<% }else{ %>
+							<td class = "iconfalse"><i class="fas fa-times"></i></td>
+						<% } %>
+						<% var link = "/checkout/"+ SearchResult.Isbn %>
+						<% if (SearchResult.Ind == "Y" ) {%>
+							<td><a href= <%=link%> ><button class ="btn btn-secondary">Borrow</button></a></td>
+						<% }else{ %>
+							<td><a href= <%=link%> ><button class ="btn btn-secondary" disabled>Borrowed</button></a></td>
+						<% } %>
+					</tr>
+				<% }); %>
+
+			</tbody>
+		</table>
+	<% } %>
+	<% if (SearchResults !== undefined && SearchResults.length == 0) {	%>	
+	<h3>No rows found</h2>
+	<% } %>
 </div>
-</body>
-</html>
+<% include ../partials/footer.ejs %>

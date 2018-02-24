@@ -1,20 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Library Management</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="/stylesheet/index.css">
-</head>
-<body>
+<% include partials/header.ejs %>
+
 <div class = "container">
-	<div class = "jumbotron">
-		<h1>Library Management</h1>
+	<div class = "jumbotron bg-secondary text-white">
+		<h1>Library Management System</h1>
 	</div>
 
+	<a href="/checkout"><button class = "btn btn-primary menu">Borrow Book</button></a>
+	<a href="/checkin"><button class ="btn btn-primary menu">Return Book</button></a>
+	<a href="/createborrower"><button class ="btn btn-primary menu">Create New Borrower</button></a>
+	<a href="/payfines"><button class ="btn btn-primary menu">Pay Fines</button></a>
+	<a href="/updatefines"><button class ="btn btn-primary menu">Update Fines</button></a>	
 
-	<a href="/checkout"><button>Checkin</button></a>
-	<a href="/checkin"><button>Checkout</button></a>
 
 </div>
-</body>
-</html>
+
+<% include partials/footer.ejs %>
