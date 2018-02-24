@@ -72,4 +72,10 @@ img{
 	margin-top: 5px;
 	text-align: center;
 }
-
+body{
+	background-image: url("/images/books.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: -50px -700px;;
+	background-size: 150%;	
+}

@@ -2,13 +2,15 @@
 <div class = "container">
 	<div class = "jumbotron bg-secondary text-white">
 		<h1>Library Management System</h1>
+		<h4>Current Application Date: <%= date %></h4>
 	</div>
-
-	<a href="/checkout"><button class = "btn btn-primary menu">Borrow Book</button></a>
-	<a href="/checkin"><button class ="btn btn-primary menu">Return Book</button></a>
-	<a href="/createborrower"><button class ="btn btn-primary menu">Create New Borrower</button></a>
-	<a href="/payfines"><button class ="btn btn-primary menu">Pay Fines</button></a>
-	<a href="/updatefines"><button class ="btn btn-primary menu">Update Fines</button></a>	
+	<div id ="main-menu">
+		<a href="/checkout"><button class = "btn btn-primary menu">Borrow Book</button></a>
+		<a href="/checkin"><button class ="btn btn-primary menu">Return Book</button></a>
+		<a href="/createborrower"><button class ="btn btn-primary menu">Create New Borrower</button></a>
+		<a href="/payfines"><button class ="btn btn-primary menu">Pay Fines</button></a>
+		<a href="/updatefines"><button class ="btn btn-primary menu">Update Fines</button></a>	
+	</div>
 	<button class = "btn btn-secondary" id = "changeDate">Change Application Date</button>
 	<div id="div-set-date">
 		<form action = "/changedate" method ="POST">

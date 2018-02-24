@@ -5,5 +5,6 @@ $(document).ready(function(){
 	$("#changeDate").click(function(){
 		//$("#div-set-date").fadeToggle();
 		$("#div-set-date").slideToggle("fast");
+		$("#main-menu").slideToggle(350,"swing");
 	})
 })
