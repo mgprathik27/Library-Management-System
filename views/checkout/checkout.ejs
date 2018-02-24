@@ -3,7 +3,13 @@
 	<div class = "jumbotron bg-secondary text-white">
 		<h1>Checkout counter</h1>
 	</div>
-	<% var link = "/checkout/"+isbn; %>
+	<div class = "thumbnail">
+		<img src = "<%= QueryRes.cover%>"">
+		<div class="caption-full">
+			<h4><%= QueryRes.Title %></h4>
+		</div>
+	</div>
+	<% var link = "/checkout/"+QueryRes.Isbn; %>
 	<form action= <%=link%> method ="POST">
 		<input type="text" name="cardid" placeholder="Borrower Card Id">
 		<button name="checkout" type="submit" class ="btn btn-primary">Checkout</button>

@@ -2,7 +2,6 @@ var express = require('express');
 var app = express();
 var Sequelize = require('sequelize');
 var bodyParser = require("body-parser");
-var flash = require('connect-flash');
 var connection = new Sequelize('library', 'root', 'prat27winneR',{
 host: 'localhost',
 dialect: 'mysql'
@@ -14,7 +13,15 @@ app.set("view engine","ejs");
 
 app.get("/checkout/:isbn",function(req,res){
 	console.log(req.params.isbn);
-	res.render("checkout/checkout",{isbn : req.params.isbn});
+	query = 'select * from book where Isbn = ?';
+	connection.query(query,{replacements: [req.params.isbn]}).then(QueryRes =>{
+		console.log(QueryRes);
+		res.render("checkout/checkout",{QueryRes : QueryRes[0][0]});										
+
+	}).catch(function(){
+		console.log('failed Insert');
+	})	
+	
 });
 
 app.post("/checkout/:isbn",function(req,res){
@@ -233,7 +240,19 @@ app.post("/checkout", function(req,res){
 	console.log("redirected " + req.body.search);
 	var search_var = req.body.search.toLowerCase();
 	console.log("search_var " + search_var);
-	var query = 'select Isbn, Title, Authors, Ind from (select  Isbn, Title, Authors, "N" as Ind from book a where (lower(Isbn) like "%'+search_var+'%" or lower(Title) like "%'+search_var+'%" or lower(Authors) like "%'+search_var+'%")  and exists (select 1 from book_loan b where a.Isbn = b.Isbn and b.Date_in is null) union select  Isbn, Title, Authors, "Y" as Ind from book a where (lower(Isbn) like "%'+search_var+'%" or lower(Title) like "%'+search_var+'%" or lower(Authors) like "%'+search_var+'%") and (exists (select 1 from book_loan b where a.Isbn = b.Isbn and b.Date_in is not null) or not exists (select 1 from book_loan b where a.Isbn = b.Isbn))) c order by Title';
+	//var query = 'select Isbn, Title, Authors, Ind from (select  Isbn, Title, Authors, "N" as Ind from book a where (lower(Isbn) like "%'+search_var+'%" or lower(Title) like "%'+search_var+'%" or lower(Authors) like "%'+search_var+'%")  and exists (select 1 from book_loan b where a.Isbn = b.Isbn and b.Date_in is null) union select  Isbn, Title, Authors, "Y" as Ind from book a where (lower(Isbn) like "%'+search_var+'%" or lower(Title) like "%'+search_var+'%" or lower(Authors) like "%'+search_var+'%") and (exists (select 1 from book_loan b where a.Isbn = b.Isbn and b.Date_in is not null) or not exists (select 1 from book_loan b where a.Isbn = b.Isbn))) c order by Title';
+/*	var query = 'select * from ('+
+					' select Isbn, Title, Authors, "N" AS Ind from ('+
+					' select distinct a.Isbn, a.title, GROUP_CONCAT(c.name ORDER BY c.name ASC SEPARATOR ", ") authors from book a left join book_author b on a.Isbn = b.Isbn  left join authors c on b.author_id = c.author_id  group by a.Isbn  order by a.Isbn  ) d'+
+					' where (Isbn like "%'+search_var+'%" or Title like "%'+search_var+'%" or authors like "%'+search_var+'%") and EXISTS( SELECT 1 FROM book_loan e WHERE d.Isbn = e.Isbn AND e.Date_in IS NULL)'+
+					' union'+
+					' select Isbn, Title, Authors, "Y" AS Ind from ('+
+					' select distinct a.Isbn, a.title, GROUP_CONCAT(c.name ORDER BY c.name ASC SEPARATOR ", ") authors from book a left join book_author b on a.Isbn = b.Isbn  left join authors c on b.author_id = c.author_id  group by a.Isbn  order by a.Isbn  ) d'+
+					' where (Isbn like "%'+search_var+'%" or Title like "%'+search_var+'%" or authors like "%'+search_var+'%") and (exists (select 1 from book_loan e where d.Isbn = e.Isbn and e.Date_in is not null) or not exists (select 1 from book_loan e where d.Isbn = e.Isbn))) f'+
+					' order by Title'; */	
+	var query = 'select Isbn, Title, Authors, Ind from ('+
+					' select distinct a.Isbn, a.title, GROUP_CONCAT(c.name ORDER BY c.name ASC SEPARATOR ", ") authors, a.available as Ind from book a left join book_author b on a.Isbn = b.Isbn  left join authors c on b.author_id = c.author_id  group by a.Isbn  order by a.Isbn  ) d'+
+					' where Isbn like "%'+search_var+'%" or Title like "%'+search_var+'%" or authors like "%'+search_var+'%" order by title';					
 	console.log("query " + query);
 
 	connection.sync().then(function(){
@@ -287,6 +306,21 @@ app.post("/payfines", function(req,res){
 	})
 	
 	
+})
+
+app.post("/changedate",function(req,res){
+	var query = 'update today set today_date = ?';
+	console.log("query " + query);
+
+	connection.sync().then(function(){
+		console.log("connected");
+		connection.query(query,{replacements: [req.body.date]}).then(UpdateResults => {
+			res.redirect("/");
+ 		});
+
+	}).catch(function(){
+		console.log("disconnected");
+	})
 })
 
 app.listen(8080,function(err){

@@ -1,5 +1,4 @@
 <% include partials/header.ejs %>
-
 <div class = "container">
 	<div class = "jumbotron bg-secondary text-white">
 		<h1>Library Management System</h1>
@@ -10,8 +9,14 @@
 	<a href="/createborrower"><button class ="btn btn-primary menu">Create New Borrower</button></a>
 	<a href="/payfines"><button class ="btn btn-primary menu">Pay Fines</button></a>
 	<a href="/updatefines"><button class ="btn btn-primary menu">Update Fines</button></a>	
-
-
+	<button class = "btn btn-secondary" id = "changeDate">Change Application Date</button>
+	<div id="div-set-date">
+		<form action = "/changedate" method ="POST">
+			<input type = "date" name = "date">
+			<button id = "setdate" class = "btn btn-primary">Set Date</button>
+		</form>
+	</div>
 </div>
+
 
 <% include partials/footer.ejs %>
