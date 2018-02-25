@@ -4,8 +4,8 @@
 		<h1>Library Management - Pay Fines</h1>
 	</div>
 	<form action="/payfines" method ="POST">
-		<input type="text" name="search" placeholder="Search" class = "search">
-		<input type="submit" name="submit" class="btn btn-primary">
+		<input type="text" name="search" placeholder="Search using Borrower card ID or Borrower name" class = "search">
+		<input type="submit" name="submit" class="btn btn-primary" value="Search">
 	</form>
 	<% if (SearchResults !== undefined && SearchResults.length != 0) {	%>
 		<table class = "table table-striped">
